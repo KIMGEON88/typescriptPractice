@@ -26,9 +26,8 @@
 //   name: string,
 //   age: number
 // ): void {};
-let add = new Function("a", "b", "return a+b");
-let result = add(1, 2);
-console.log(result);
+// let add = new Function("a", "b", "return a+b");
+// let result = add(1, 2);
 
 function a(a, b) {
   return a + b;
@@ -45,3 +44,45 @@ const add1 = (a) => {
     return a + b;
   };
 };
+
+type NumberToNumberFunc = (number) => number;
+export const add = (a: number): NumberToNumberFunc => {
+  const _add: NumberToNumberFunc = (b: number): number => {
+    return a + b; // 클로저
+  };
+  return _add;
+};
+
+const multiply = (a) => (b) => (c) => a * b * c;
+
+export type Person = { name: string; age: number };
+
+// export const makePerson = (name: string, age: number = 10): Person => {
+//     const person = { name: name, age: age }
+//     return person
+// }
+
+export const makePerson = (name: string, age: number = 10) => ({ name, age });
+
+type Keytype = {
+  [key: string]: string;
+};
+
+export const makeObject = (key: string, value: string): Keytype => ({
+  [key]: value,
+});
+
+export class A {
+  value: number = 1;
+  method: () => void = function (): void {
+    console.log(`value: ${this.value}`);
+  };
+}
+
+export class B {
+  constructor(public value: number = 1) {}
+
+  method(): void {
+    console.log(`value: ${this.value}`);
+  }
+}
