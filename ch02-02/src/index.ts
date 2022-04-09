@@ -29,60 +29,119 @@
 // let add = new Function("a", "b", "return a+b");
 // let result = add(1, 2);
 
-function a(a, b) {
-  return a + b;
-} // 함수표현식
+// function a(a, b) {
+//   return a + b;
+// } // 함수표현식
 
-//
-const add2 =
-  (a: number): ((number) => number) =>
-  (b: number): number =>
-    a + b;
+// //
+// const add2 =
+//   (a: number): ((number) => number) =>
+//   (b: number): number =>
+//     a + b;
 
-const add1 = (a) => {
-  return (b) => {
-    return a + b;
-  };
-};
+// const add1 = (a) => {
+//   return (b) => {
+//     return a + b;
+//   };
+// };
 
-type NumberToNumberFunc = (number) => number;
-export const add = (a: number): NumberToNumberFunc => {
-  const _add: NumberToNumberFunc = (b: number): number => {
-    return a + b; // 클로저
-  };
-  return _add;
-};
+// type NumberToNumberFunc = (number) => number;
+// export const add = (a: number): NumberToNumberFunc => {
+//   const _add: NumberToNumberFunc = (b: number): number => {
+//     return a + b; // 클로저
+//   };
+//   return _add;
+// };
 
-const multiply = (a) => (b) => (c) => a * b * c;
+// const multiply = (a) => (b) => (c) => a * b * c;
 
-export type Person = { name: string; age: number };
+// export type Person = { name: string; age: number };
 
-// export const makePerson = (name: string, age: number = 10): Person => {
-//     const person = { name: name, age: age }
-//     return person
+// // export const makePerson = (name: string, age: number = 10): Person => {
+// //     const person = { name: name, age: age }
+// //     return person
+// // }
+
+// export const makePerson = (name: string, age: number = 10) => ({ name, age });
+
+// type Keytype = {
+//   [key: string]: string;
+// };
+
+// export const makeObject = (key: string, value: string): Keytype => ({
+//   [key]: value,
+// });
+
+// export class A {
+//   value: number = 1;
+//   method: () => void = function (): void {
+//     console.log(`value: ${this.value}`);
+//   };
 // }
 
-export const makePerson = (name: string, age: number = 10) => ({ name, age });
+// export class B {
+//   constructor(public value: number = 1) {}
 
-type Keytype = {
-  [key: string]: string;
+//   method(): void {
+//     console.log(`value: ${this.value}`);
+//   }
+// }
+
+// 어떤 프로그래밍 언어는 문자열을 문자들의 배열로 간주합니다.
+// 타입스크립트에서는 문자 타입이 없고 문장열의 내용 또한 변경할 수 없다.
+// 이러한 특성 때문에 문자열을 가공하려면 먼저 문자열을 배열로 전환해야 한다.
+
+// export const split = (str: string, delim: string = ""): string[] =>
+//   str.split(delim);
+
+// console.log(split("gello"));
+
+// export const join = (strArray: string[], delim: string = ""): string =>
+//   strArray.join(delim);
+
+// console.log(join(["h", "e", "l"]));
+
+// const numbers: number[] = [1, 2, 3, 4, 5];
+// for (let index = 0; index < numbers.length; index++) {
+//   const item: number = numbers[index];
+//   console.log(item);
+// }
+
+// let names = ['jack', 'jane', 'steve']
+
+// for (let index in names) {
+//   const name = names[index]
+//   console.log(`[${index}]:${name}`)
+// }
+
+// const arrayLength = <T>(array: T[]): number => array.length
+// const isEmpty = <T>(array:T[]) : boolean => arrayLength<T>(array) === 0
+
+// let numArray: number[] = [1, 2, 3]
+// let strArray: string[] = ['Hello', 'World']
+
+// type IPerson = { name: string, age?: number }
+// let personArray: IPerson[] = [{ name: 'Jack' }, { name: 'Jane', age: 32 }]
+
+export const range = (from: number, to: number): number[] =>
+  from < to ? [from, ...range(from + 1, to)] : [];
+
+let numbers: number[] = range(1, 9 + 1);
+console.log(numbers);
+
+export const fold = <T>(
+  array: T[],
+  callback: (result: T, val: T) => T,
+  initValue: T
+) => {
+  let result: T = initValue;
+  for (let i = 0; i < array.length; i++) {
+    const value = array[i];
+    result = callback(result, value);
+  }
+  return result;
 };
 
-export const makeObject = (key: string, value: string): Keytype => ({
-  [key]: value,
-});
-
-export class A {
-  value: number = 1;
-  method: () => void = function (): void {
-    console.log(`value: ${this.value}`);
-  };
-}
-
-export class B {
-  constructor(public value: number = 1) {}
-
-  method(): void {
-    console.log(`value: ${this.value}`);
-  }
-}
+let numbersOne: number[] = range(1, 100 + 1);
+let resultOne = fold(numbersOne, (result, value) => result + value, 0);
+console.log(resultOne);
