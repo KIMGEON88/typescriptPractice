@@ -122,26 +122,16 @@
 
 // type IPerson = { name: string, age?: number }
 // let personArray: IPerson[] = [{ name: 'Jack' }, { name: 'Jane', age: 32 }]
+export type ResultType = [boolean, string];
 
-export const range = (from: number, to: number): number[] =>
-  from < to ? [from, ...range(from + 1, to)] : [];
-
-let numbers: number[] = range(1, 9 + 1);
-console.log(numbers);
-
-export const fold = <T>(
-  array: T[],
-  callback: (result: T, val: T) => T,
-  initValue: T
-) => {
-  let result: T = initValue;
-  for (let i = 0; i < array.length; i++) {
-    const value = array[i];
-    result = callback(result, value);
+export const doSomething = (): ResultType => {
+  try {
+    throw new Error("Some error occurs...");
+  } catch (e) {
+    console.log(e);
+    return [false, e.message];
   }
-  return result;
 };
 
-let numbersOne: number[] = range(1, 100 + 1);
-let resultOne = fold(numbersOne, (result, value) => result + value, 0);
-console.log(resultOne);
+const [result, errorMessage] = doSomething();
+console.log(result, errorMessage);

@@ -1,0 +1,13 @@
+import { readFile } from "fs";
+import { resolve } from "path/posix";
+import { reject } from "ramda";
+
+export const readFilePromise = (filename: string): Promise<string> =>
+  new Promise<string>(
+    (resolve: (value: string) => void, reject: (error: Error) => void) => {
+      readFile(filename, (err: Error, buffer: Buffer) => {
+        if (err) reject(err);
+        else resolve(buffer.toString());
+      });
+    }
+  );
